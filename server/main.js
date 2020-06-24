@@ -8,13 +8,11 @@ import connection from './database'
 import config from './config'
 
 const app = express()
-const server = http.createServer()
+const server = http.createServer(app)
 
 connection()
 
-
 app.use(express.static(path.join(__dirname, '../client/build')))
-
 app.use(bodyParser.json())
 
 app.use(bodyParser.urlencoded({
@@ -26,8 +24,11 @@ app.use(cors())
 app.use('/api/v1/', router)
 
 app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, '../client/build/index.html'))
+    res.sendFile(path.join(__dirname, '../client/build/index.html'), (err) =>{
+        if (err) {
+            res.status(500).send(err)
+        }
+    })
 })
-
 
 server.listen(config.port)
