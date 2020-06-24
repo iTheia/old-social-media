@@ -7,6 +7,9 @@ const postRouter = express.Router()
 
 postRouter.route('/')
     .get(catchErrors(controller.getAll))
+    .post(authorization, [
+        body('description').trim().escape()
+    ], catchErrors(controller.create))
 
 
 export default postRouter

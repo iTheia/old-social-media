@@ -1,10 +1,23 @@
 import mongoose from 'mongoose'
 
-const schema = {
-    
-}
+const Schema = mongoose.Schema
 
-const postSchema = new mongoose.Schema(schema, {timestamps:true})
+const postSchema = Schema({
+    description:{
+        type:String
+    },
+    media:{
+        type:String
+    },
+    author:{
+        type: Schema.Types.ObjectId,
+        ref:'User'
+    },
+    likes:{
+        type:Number,
+        default:0
+    }
+}, {timestamps:true})
 
 const Post =  mongoose.model('Post', postSchema)
 

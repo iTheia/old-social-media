@@ -3,7 +3,9 @@ import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
 import config from '../../config'
 
-const schema = {
+const Schema = mongoose.Schema
+
+const userSchema = Schema({
     email:{
         type:String,
         required:[true, 'email can not be empety']
@@ -15,16 +17,23 @@ const schema = {
     notifications:{
         type:Array
     },
-    post:{
-        type:Array
-    },
+    post:[{
+        type:Schema.Types.ObjectId, 
+        ref:'Post' 
+    }],
     name:{
         type:String,
         required:[true, 'name can not be empty']
+    },
+    followers:{
+        type:Number,
+        default:0
+    },
+    follows:{
+        type: Schema.Types.ObjectId,
+        ref:'User'
     }
-}
-
-const userSchema = new mongoose.Schema(schema, {timestamps:true})
+}, { timestamps: true})
 
 userSchema.pre('save', async function(next){
     if(this.isModified('password')){
@@ -36,12 +45,10 @@ userSchema.pre('save', async function(next){
     }
 })
 
-
 userSchema.methods.generateAuthToken = function () {
     const token = jwt.sign({_id:this.id}, config.secret.token)
     return token
 }
-
 
 const User =  mongoose.model('User', userSchema)
 
