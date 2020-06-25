@@ -11,5 +11,12 @@ postRouter.route('/')
         body('description').trim().escape()
     ], catchErrors(controller.create))
 
+postRouter.route('/:id')
+    .get(catchErrors(controller.getSingle))
+    .put(authorization, [
+        body('description').trim().escape()
+    ], catchErrors(controller.update))
+    .delete(authorization, catchErrors(controller.delete))
+
 
 export default postRouter
