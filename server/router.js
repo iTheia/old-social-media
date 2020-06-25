@@ -1,8 +1,8 @@
 import express from 'express'
 import { body } from 'express-validator'
 import { catchErrors } from './middlewares'
-import { userRoute, userController } from './resources/users'
-import { postRoute } from './resources/posts'
+import { userRoute, userController } from './api/users'
+import { postRoute } from './api/posts'
 
 const router = express.Router()
 
