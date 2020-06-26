@@ -21,6 +21,10 @@ export default function useGet(url, state=[],config={}) {
     useEffect(()=>{
         fetchData()
     },[])
+    
+    const cleanUp = () =>{
+        setData(state)
+    }
 
-    return [data, loading, error]
+    return [data, loading, error, cleanUp]
 }

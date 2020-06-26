@@ -1,8 +1,8 @@
 import React from 'react'
 
-export default function Login() {
+export default function Explore() {
     return (
-        <div>
+        <div>qwe
             
         </div>
     )

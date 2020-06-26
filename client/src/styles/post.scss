@@ -1,0 +1,53 @@
+.post{
+    background-color: $white;
+    border: 1px solid #dbdbdb;
+    header{
+        display: flex;
+        justify-content: space-between;
+        padding: 5px 8px;
+        border-bottom: 1px solid #dbdbdb;
+    }
+    &-image{
+        max-width: 100%;
+        align-items: center;
+    }
+    &__footer{
+        &-info{
+            padding: 5px 8px;
+        }
+        .action{
+            margin-right: 8px;
+        }
+        button{
+            background: none;
+            border: none;
+        }
+        .description{
+            padding: 5px 8px;
+        }
+    }
+    .blank{
+        background-color: $grey;
+    }
+}
+
+.commentForm{
+    border-top: 1px solid #dbdbdb;
+    display: flex;
+    align-items: center;
+    padding: 5px;
+    .input{
+        height: 20px;
+        width: 80%;
+        outline: none;
+        border: none;
+        font-size: 18px;
+    }
+    button{
+        text-align: center;
+        align-content: center;
+        justify-content: center;
+        font-size: 1rem;
+        color: $blue;
+    }
+}

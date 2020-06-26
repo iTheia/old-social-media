@@ -5,7 +5,7 @@ import controller from './user.controller'
 
 const userRouter = express.Router()
 
-userRouter.get('/', catchErrors(controller.getAll))
+userRouter.get('/', authorization,  catchErrors(controller.getDshboard))
 
 userRouter.route('/:id')
     .get(catchErrors(controller.getSingle))

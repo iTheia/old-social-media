@@ -1,0 +1,40 @@
+.navbar{
+    display: flex;
+    background-color: $white;
+    justify-content: space-between;
+    padding: 20px 0;
+    border-bottom: 1px solid $darkGrey;
+    &__list{
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        width: 40%;
+    }
+    &__logo{
+        font-size: 1.5rem;
+    }
+    .link__active{
+        *{
+            fill:$blue;
+        }
+    }
+    .circle{
+        background-color: #222222;
+        width: 22px;
+        height: 22px;
+        border-radius: 50%;
+    }
+}
+.icon{
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    *{
+        max-width: 140%;
+    }
+}

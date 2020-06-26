@@ -2,6 +2,11 @@ import User from './user.model'
 import bcrypt from 'bcryptjs'
 
 const controller = {
+    async getDshboard(req, res){
+        const id = req._id
+        const user = await User.findById(id).select('name')
+        res.send(user)
+    },
     async getSingle(req, res){
         const id = req.params.id
         const user = await User.findById(id, { notifications: 0, password:0})
@@ -27,7 +32,7 @@ const controller = {
         const user = new User(req.body)
         await user.save()
         const token = user.generateAuthToken()
-        res.header('x-access-token',token).status(200).send('')
+        res.header('x-access-token',token).status(200).send(token)
     },
     async delete(req, res){
         const id = req.params.id
@@ -47,7 +52,7 @@ const controller = {
             return res.status(404).send('Invalid password or email')
         }
         const token = user.generateAuthToken()
-        res.header('x-access-token',token).status(200).send('')
+        res.header('x-access-token',token).status(200).send(token)
     }
 }
 

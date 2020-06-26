@@ -3,6 +3,7 @@ import jwt from 'jsonwebtoken'
 
 export const authorization = async (req, res, next) =>{
     const token = req.header('x-access-token')
+    
     if(!token){
         return res.status(401).send('You must sign in first')
     }
