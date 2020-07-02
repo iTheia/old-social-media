@@ -25,13 +25,20 @@ const userSchema = Schema({
         type:String,
         required:[true, 'name can not be empty']
     },
-    followers:{
-        type:Number,
-        default:0
+    userName:{
+        type:String,
+        required:[true, 'name can not be empty']
     },
-    follows:{
+    followers:[{
         type: Schema.Types.ObjectId,
         ref:'User'
+    }],
+    follows:[{
+        type: Schema.Types.ObjectId,
+        ref:'User'
+    }],
+    description:{
+        type:String
     }
 }, { timestamps: true})
 

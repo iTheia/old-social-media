@@ -8,7 +8,6 @@ import Explore from './pages/Explore'
 import Messages from './pages/Messages'
 
 export default function App() {
-
   return (
     <Router>
       <Switch>

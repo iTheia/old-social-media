@@ -18,19 +18,6 @@ export default function Navbar() {
         }
     }, [])
     
-    const isLogged = () =>{
-        if(!token){
-            return (<>
-                <Link to={{ pathname:"/login",action:{actionName:'login'}}}>Log In</Link>
-                <Link to={{ pathname:"/login",action:{actionName:'register'}}}>Sign Up</Link>
-            </>)
-        }
-        return links.map((link, index) => (
-            <NavLink key={index} to={link.path} className="nav__link" activeClassName="link__active">
-                {link.svg}
-            </NavLink>
-        ))
-    }
 
     return (
         <div className="navbar">
@@ -38,10 +25,20 @@ export default function Navbar() {
                 <Link to="/">Social Media</Link>
             </div>
             <div className="navbar__list">
-                {isLogged()}
-                <Link className="icon" to={`/profiles/${user._id}`} >
-                    <img src={require('./test.jpg')} alt=""/>
-                </Link>
+                {(!token)? 
+                    (<>
+                        <Link to={{ pathname:"/login",action:{actionName:'login'}}}>Log In</Link>
+                        <Link to={{ pathname:"/login",action:{actionName:'register'}}}>Sign Up</Link>
+                    </>):
+                    (<>
+                        {links.map((link, index) => (
+                            <NavLink key={index} exact={(link.path === '/')? true:false}to={link.path} className="nav__link" activeClassName="link__active">
+                                {link.svg}
+                            </NavLink>))}
+                        <Link className="icon" to={`/profiles/${user._id}`} >
+                            <img src={require('./test.jpg')} alt=""/>
+                        </Link>
+                    </>)}
             </div>
         </div>
     )

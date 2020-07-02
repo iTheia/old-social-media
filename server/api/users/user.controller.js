@@ -1,15 +1,16 @@
 import User from './user.model'
 import bcrypt from 'bcryptjs'
+import mongoose from 'mongoose'
 
 const controller = {
     async getDshboard(req, res){
-        const id = req._id
+        const id = mongoose.Types.ObjectId(req._id)
         const user = await User.findById(id).select('name')
         res.send(user)
     },
     async getSingle(req, res){
         const id = req.params.id
-        const user = await User.findById(id, { notifications: 0, password:0})
+        const user = await User.findById(id, { notifications: 0, password:0}).populate('post')
         res.status(200).send(user)
     },
     async getAll(req, res){
@@ -28,6 +29,10 @@ const controller = {
         const emailExist = await User.findOne({email:req.body.email})
         if(emailExist){
             return res.status(400).send('email alredy exists')
+        }
+        const userNameExist = await User.findOne({userName:req.body.userName})
+        if(userNameExist){
+            return res.status(400).send('user name alredy exists')
         }
         const user = new User(req.body)
         await user.save()
@@ -53,6 +58,18 @@ const controller = {
         }
         const token = user.generateAuthToken()
         res.header('x-access-token',token).status(200).send(token)
+    },
+    async unfollow(req, res){
+        const id = mongoose.Types.ObjectId(req.params.id)
+        const follower_id = mongoose.Types.ObjectId(req._id)
+        const user = await User.findByIdAndUpdate(id,{$pull:{followers:follower_id}},{new:true}).select('followers','userName')
+        res.send(user)
+    },
+    async follow(req, res){
+        const id = mongoose.Types.ObjectId(req.params.id)
+        const follower_id = mongoose.Types.ObjectId(req._id)
+        const user = await User.findByIdAndUpdate(id,{$push:{followers:follower_id}},{new:true}).select('followers','userName')
+        res.send(user)
     }
 }
 

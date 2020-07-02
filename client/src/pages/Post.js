@@ -6,7 +6,7 @@ import { useEffect } from 'react'
 
 export default function Post(props) {
 
-    const [ post, loading, error ] = useGet(`posts/${props.match.params.id}`,{})
+    const [ post, loading, error ] = useGet(`posts/${props.match.params.id}`,false,{})
     
     return (
         <div>
