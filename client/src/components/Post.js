@@ -27,7 +27,6 @@ export default function Post(props) {
             })
             if(response.data === "like"){
                 likesRef.current.style.fill = '#aaa'
-                console.log(likesRef.current.style)
             }else{
                 likesRef.current.style.fill = '#000'
             }

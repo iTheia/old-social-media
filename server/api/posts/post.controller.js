@@ -4,7 +4,7 @@ import { userModel } from '../users'
 
 const controller = {
     async getAll(req, res){
-        const posts = await Post.find().populate('author','name')
+        const posts = await Post.find().populate('author','name').slice('comments',2)
         res.status(200).send(posts)
     },
     async create(req, res){
@@ -34,7 +34,7 @@ const controller = {
     },
     async getSingle(req, res){
         const post_id = mongoose.Types.ObjectId(req.params.id)
-        const post = await Post.findById(post_id)
+        const post = await Post.findById(post_id).select('-comments')
         res.status(200).send(post)
     },
     async like(req, res){

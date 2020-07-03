@@ -1,3 +1,3 @@
-export { default as postRoute } from './post.route'
-export { default as postController } from './post.controller'
-export { default as postModel } from './post.model'
+export { default as commentRoute } from './comment.route'
+export { default as commentController } from './comment.controller'
+export { default as commentModel } from './comment.model'

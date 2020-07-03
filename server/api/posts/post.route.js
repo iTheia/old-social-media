@@ -5,6 +5,9 @@ import path from 'path'
 import { v4 as uuid} from 'uuid'
 import { authorization, catchErrors } from '../../middlewares'
 import controller from './post.controller'
+import { commentRoute } from '../comments';
+
+const postRouter = express.Router()
 
 const storage = multer.diskStorage({
     filename: (req, file, cb) =>{
@@ -18,7 +21,7 @@ const storage = multer.diskStorage({
 const upload = multer({
     storage,
     fileFilter: (req, file, cb) =>{
-        const fileTypes = /jpeg|jpg|png|gif/;
+        const fileTypes = /jpeg|jpg|png/;
         const mimetype = fileTypes.test(file.mimetype)
         const extname = fileTypes.test(path.extname(file.originalname))
         if(mimetype && extname){
@@ -27,7 +30,10 @@ const upload = multer({
         cb('file is not valid')
     }
 })
-const postRouter = express.Router()
+
+postRouter.get('/likes/:id', authorization, catchErrors(controller.like))
+
+postRouter.use('/:post_id/comments', commentRoute)
 
 postRouter.route('/')
     .get(catchErrors(controller.getAll))
@@ -43,6 +49,5 @@ postRouter.route('/:id')
     ], catchErrors(controller.update))
     .delete(authorization, catchErrors(controller.delete))
 
-postRouter.get('/likes/:id', authorization, catchErrors(controller.like))
 
 export default postRouter

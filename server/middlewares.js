@@ -1,7 +1,5 @@
 import config from './config'
 import jwt from 'jsonwebtoken'
-import multer from 'multer'
-import path from 'path'
 
 export const authorization = async (req, res, next) =>{
     const token = req.header('x-access-token')
