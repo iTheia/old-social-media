@@ -2,7 +2,6 @@ import React from 'react'
 import Navbar from '../components/Navbar'
 import PostContent from '../components/Post'
 import useGet from '../hooks/useGet'
-import { useEffect } from 'react'
 
 export default function Post(props) {
 

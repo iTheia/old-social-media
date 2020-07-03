@@ -62,13 +62,15 @@ const controller = {
     async unfollow(req, res){
         const id = mongoose.Types.ObjectId(req.params.id)
         const follower_id = mongoose.Types.ObjectId(req._id)
-        const user = await User.findByIdAndUpdate(id,{$pull:{followers:follower_id}},{new:true}).select('followers','userName')
+        const user = await User.findByIdAndUpdate(id,{$pull:{followers:follower_id}},{new:true}).select('followers userName')
+        await User.findByIdAndUpdate(follower_id,{$pull:{follows:id}})
         res.send(user)
     },
     async follow(req, res){
         const id = mongoose.Types.ObjectId(req.params.id)
         const follower_id = mongoose.Types.ObjectId(req._id)
-        const user = await User.findByIdAndUpdate(id,{$push:{followers:follower_id}},{new:true}).select('followers','userName')
+        const user = await User.findByIdAndUpdate(id,{$push:{followers:follower_id}},{new:true}).select('followers userName')
+        await User.findByIdAndUpdate(follower_id,{$push:{follows:id}})
         res.send(user)
     }
 }

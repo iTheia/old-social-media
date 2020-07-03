@@ -11,8 +11,8 @@ const controller = {
         const user_id = mongoose.Types.ObjectId(req._id)
         const post = new Post({
             description:req.body.description,
-            media:req.body.media,
-            likes:0,
+            media:req.file.filename,
+            likes:[],
             author:user_id
         })
         await post.save()
@@ -36,7 +36,19 @@ const controller = {
         const post_id = mongoose.Types.ObjectId(req.params.id)
         const post = await Post.findById(post_id)
         res.status(200).send(post)
-    }
+    },
+    async like(req, res){
+        const user_id = mongoose.Types.ObjectId(req._id)
+        const post_id = mongoose.Types.ObjectId(req.params.id)
+        const post = await Post.findById(post_id)
+        const index = post.likes.findIndex(user => user.equals(user_id))
+        if(index >= 0){
+            await Post.findByIdAndUpdate(post_id, {$pull:{likes:user_id}})
+            return res.status(200).send("dislike")
+        }
+        await Post.findByIdAndUpdate(post_id, {$push:{likes:user_id}})
+        res.status(200).send("like")
+    } 
 }
 
 export default controller

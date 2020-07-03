@@ -6,7 +6,10 @@ import jwt_decode from 'jwt-decode'
 export default function UserInfo(props) {
     const [user, setUser] = useState(props.user)
     const token = localStorage.getItem('token')
-    const { _id } = jwt_decode(token)
+    let _id
+    if(token){
+        _id = jwt_decode(token)._id
+    }
 
     const follow = async (e) =>{
         e.preventDefault()
@@ -16,7 +19,19 @@ export default function UserInfo(props) {
                     'x-access-token':token
                 }
             })
-            console.log(response)
+            setUser(response.data)
+        } catch (error) {
+            alert(error)
+        }
+    }
+    const unFollow = async e =>{
+        e.preventDefault()
+        try {
+            const response = await axios.get(`${localStorage.getItem('URL')}/unfollow/${user._id}`,{
+                headers:{
+                    'x-access-token':token
+                }
+            })
             setUser(response.data)
         } catch (error) {
             alert(error)
@@ -30,7 +45,7 @@ export default function UserInfo(props) {
 
     const printOptions = () =>{
         if(_id !== user._id){
-            return <IsNotMe follow={follow} user_id={user._id} my_id={_id} follows={user.followers}/>
+            return <IsNotMe unFollow={unFollow} follow={follow} user_id={user._id} my_id={_id} follows={user.followers}/>
         }
         return <IsMe/>
     }
@@ -67,10 +82,10 @@ const IsMe = () =>{
 }
 
 const IsNotMe= (props) =>{
-    const {follows, my_id, user_id, follow} = props 
-    const isFollowing = follows.findIndex(user => user._id === my_id)
+    const {follows, my_id, user_id, follow, unFollow} = props 
+    const isFollowing = follows.findIndex(user => user === my_id)
     
-    if(isFollowing){
+    if(isFollowing >= 0){
         return <div>
             <Link to={{
                 pathname:"/messages",
@@ -80,7 +95,7 @@ const IsNotMe= (props) =>{
             }}>
                 Send message
             </Link>
-            <button>
+            <button onClick={unFollow}>
                 Unfollow
             </button>
         </div>
