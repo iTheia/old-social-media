@@ -1,7 +1,8 @@
 import React,{useEffect} from 'react'
-import Navbar from '../components/Navbar'
+import { Container, Row, Col } from 'react-bootstrap';
 import useGet from '../hooks/useGet'
 import PostContainer from '../containers/Post'
+import Navbar from '../components/Navbar'
 import Loading from '../components/Loading'
 import UserInfo from '../components/UserInfo'
 
@@ -21,24 +22,30 @@ export default function Profile(props) {
     return (
         <div className="page profile">
             <Navbar/>
-            <div className="profile-content">
-                <div className="profile-board">
-                    <div className="user-image">
-                        <img src={require('../components/test.jpg')} alt=""/>
-                    </div>
-                    <div className="user-info">
-                        <UserInfo user={{_id:user._id, userName:user.userName, followers:user.followers}} ></UserInfo>
-                        <p className="user-stats">
-                            <button className="stat">{user.post.length} posts</button>
-                            <button className="stat">{user.followers.length} followers</button>
-                            <button className="stat">{user.follows.length} follows</button>
-                        </p>
+            <Container style={{marginTop:'20px', padding:'0 0%'}}>
+                <Container>
+                    <Row>
+                        <Col md={4}>
+                            <div className="user-image">
+                                <img src={require('../components/test.jpg')} alt=""/>
+                            </div>
+                        </Col>
+                        <Col md={8}>
+                            <UserInfo user={{_id:user._id, userName:user.userName, followers:user.followers}} ></UserInfo>
+                            
+                            <p className="user-stats">
+                                <button className="stat">{`${user.post.length} posts`}</button>
+                                <button className="stat">{`${user.followers.length} followers`}</button>
+                                <button className="stat">{`${user.follows.length} follows`}</button>
+                            </p>
+                            
                         <h4>{user.name}</h4>
-                        <p>{user.description} </p>
-                    </div>
-                </div>
+                        </Col>
+                    </Row>
+                    <p className='d-none d-lg-block'>{user.description} </p>
+                </Container>
                 <PostContainer post={user.post}></PostContainer>
-            </div>
+            </Container>
         </div>
     )
 }

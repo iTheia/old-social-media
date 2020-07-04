@@ -1,5 +1,6 @@
 import React, { useEffect }  from 'react'
 import { Link, NavLink } from 'react-router-dom'
+import { Container } from "react-bootstrap";
 import useGet from '../hooks/useGet'
 
 export default function Navbar() {
@@ -11,35 +12,31 @@ export default function Navbar() {
             'x-access-token':token
         }
     })
-
-    useEffect(() => {
-        return () =>{
-            cleanUp()
-        }
-    }, [])
     
 
     return (
         <div className="navbar">
-            <div className="navbar__logo">
-                <Link to="/">Social Media</Link>
-            </div>
-            <div className="navbar__list">
-                {(!token)? 
-                    (<>
-                        <Link to={{ pathname:"/login",action:{actionName:'login'}}}>Log In</Link>
-                        <Link to={{ pathname:"/login",action:{actionName:'register'}}}>Sign Up</Link>
-                    </>):
-                    (<>
-                        {links.map((link, index) => (
-                            <NavLink key={index} exact={(link.path === '/')? true:false}to={link.path} className="nav__link" activeClassName="link__active">
-                                {link.svg}
-                            </NavLink>))}
-                        <Link className="icon" to={`/profiles/${user._id}`} >
-                            <img src={require('./test.jpg')} alt=""/>
-                        </Link>
-                    </>)}
-            </div>
+            <Container>
+                <div className="navbar__logo">
+                    <Link to="/">Social Media</Link>
+                </div>
+                <div className="navbar__list">
+                    {(!token)? 
+                        (<>
+                            <Link to={{ pathname:"/login",action:{actionName:'login'}}}>Log In</Link>
+                            <Link to={{ pathname:"/login",action:{actionName:'register'}}}>Sign Up</Link>
+                        </>):
+                        (<>
+                            {links.map((link, index) => (
+                                <NavLink key={index} exact={(link.path === '/')? true:false}to={link.path} className="nav__link" activeClassName="link__active">
+                                    {link.svg}
+                                </NavLink>))}
+                            <Link className="icon" to={`/profiles/${user._id}`} >
+                                <img src={require('./test.jpg')} alt=""/>
+                            </Link>
+                        </>)}
+                </div>
+            </Container>
         </div>
     )
 }

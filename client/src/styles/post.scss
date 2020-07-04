@@ -1,11 +1,19 @@
 .post{
     background-color: $white;
     border: 1px solid #dbdbdb;
+    margin: 20px 0;
+    &:first-of-type{
+        margin-top: 0;
+    }
     header{
         display: flex;
         justify-content: space-between;
         padding: 5px 8px;
         border-bottom: 1px solid #dbdbdb;
+    }
+    &__media{
+        display: flex;
+        justify-content: center;
     }
     &-image{
         max-width: 100%;

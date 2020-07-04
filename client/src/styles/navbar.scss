@@ -1,14 +1,17 @@
 .navbar{
     display: flex;
+    position: sticky;
+    top: 0;
+    z-index: 2;
     background-color: $white;
     justify-content: space-between;
-    padding: 20px 0;
     border-bottom: 1px solid $darkGrey;
     &__list{
         display: flex;
         justify-content: space-around;
         align-items: center;
         width: 40%;
+
     }
     &__logo{
         font-size: 1.5rem;
@@ -25,6 +28,12 @@
         border-radius: 50%;
     }
 }
+
+@media (max-width: 400px) {
+    .navbar__list {
+        width: 50%;
+    }
+  }
 .icon{
     width: 30px;
     height: 30px;
@@ -36,5 +45,14 @@
 
     *{
         max-width: 150%;
+    }
+}
+
+a{
+    text-decoration: none !important;
+    color: inherit;
+    &:hover{
+        color: inherit;
+        
     }
 }

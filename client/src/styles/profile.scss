@@ -1,26 +1,20 @@
 .profile{
-    &-board{
-        display: flex;
-        justify-content: space-between;
-        align-content: center;
-        padding: 10px 5%;
-        .user{
-            
-            $length: 150px;
-            &-info{
-                max-width: 60%;
-            }
-            &-image{
-                width: $length;
-                height: $length;
-                border-radius: 50%;
-                display: flex;
-                overflow: hidden;
-                justify-content: center;
-                align-content: center;
-                *{
-                    max-width: 140%;
-                }
+    .user{
+        
+        $length: 150px;
+        &-info{
+            max-width: 60%;
+        }
+        &-image{
+            width: $length;
+            height: $length;
+            border-radius: 50%;
+            display: flex;
+            overflow: hidden;
+            justify-content: center;
+            align-content: center;
+            *{
+                max-width: 140%;
             }
         }
     }
@@ -29,7 +23,7 @@
     }
     &-posts-container{
         display: grid;
-        grid-template-columns: repeat(auto-fit,minmax(30%, 1fr));
+        grid-template-columns: 1fr 1fr 1fr;
         grid-gap: .4rem;
         padding: 0;
         margin: 0;

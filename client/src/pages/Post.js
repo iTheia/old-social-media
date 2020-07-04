@@ -11,7 +11,7 @@ export default function Post(props) {
         <div>
             <Navbar></Navbar>
             <div className="post-container single">
-                <PostContent loading={loading} post={post}/>
+                <PostContent from="post" loading={loading} post={post}/>
             </div>
         </div>
     )

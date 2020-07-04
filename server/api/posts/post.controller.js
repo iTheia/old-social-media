@@ -4,7 +4,7 @@ import { userModel } from '../users'
 
 const controller = {
     async getAll(req, res){
-        const posts = await Post.find().populate('author','name').slice('comments',2)
+        const posts = await Post.find().populate('author').populate('comments').slice('comments',2)
         res.status(200).send(posts)
     },
     async create(req, res){
