@@ -39,6 +39,9 @@ const userSchema = Schema({
     }],
     description:{
         type:String
+    },
+    avatar:{
+        Type:String
     }
 }, { timestamps: true})
 

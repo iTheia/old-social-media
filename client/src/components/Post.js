@@ -5,8 +5,7 @@ import Comments from '../containers/Comments'
 export default function Post(props) {
     
     const { loading, post, from } = props
-
-
+    
     if(loading){
         return <article className="post blank" style={{height:'400px'}}></article>
     }
@@ -14,11 +13,13 @@ export default function Post(props) {
     return <article className="post">
         <header>
             <Link to={`/profiles/${post.author._id}`} className="post__author-info">
-                <img className="author__image" src="" alt=""/>
-                <span>{post.author.name}</span>
+                <img className="author__image" src={`/images/${post.author.avatar}`} alt=""/>
+                <label>{post.author.name}</label>
             </Link>
             <div className="options">
-                <button className="options__button">opciones</button>
+                <button className="options__button">
+                    <img src="/images/more.png" alt=""/>
+                </button>
             </div>
         </header>
         <div className="post__media">
@@ -41,7 +42,7 @@ export default function Post(props) {
                 <button className="likes">{post.likes.length} Likes</button>
             </div>
             <p className="description">{post.description}</p>
-            <Comments from={from} post_id={post._id} comments={post.comments}></Comments>
         </div>
+        <Comments from={from} post_id={post._id} comments={post.comments}></Comments>
     </article>
 }

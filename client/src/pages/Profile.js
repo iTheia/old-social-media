@@ -22,27 +22,31 @@ export default function Profile(props) {
     return (
         <div className="page profile">
             <Navbar/>
-            <Container style={{marginTop:'20px', padding:'0 0%'}}>
-                <Container>
+            <Container style={{marginTop:'20px'}} className="minor-container">
+                <Container >
                     <Row>
-                        <Col md={4}>
+                        <Col md={3} sm={4}>
                             <div className="user-image">
-                                <img src={require('../components/test.jpg')} alt=""/>
+                                <img src={`/images/${user.avatar}`} alt=""/>
                             </div>
                         </Col>
                         <Col md={8}>
                             <UserInfo user={{_id:user._id, userName:user.userName, followers:user.followers}} ></UserInfo>
-                            
-                            <p className="user-stats">
-                                <button className="stat">{`${user.post.length} posts`}</button>
-                                <button className="stat">{`${user.followers.length} followers`}</button>
-                                <button className="stat">{`${user.follows.length} follows`}</button>
-                            </p>
-                            
-                        <h4>{user.name}</h4>
+                            <Container className="user-stats">
+                                <Row>
+                                    <Col><button className="stat">{`${user.post.length} posts`}</button></Col>
+                                    <Col><button className="stat">{`${user.followers.length} followers`}</button></Col>
+                                    <Col><button className="stat">{`${user.follows.length} follows`}</button></Col>
+                                </Row>
+                             </Container>
+                            <h4>{user.name}</h4>
+                            <Container>
+                                <Row>
+                                <p className='d-none d-lg-block'>{user.description}</p>
+                                </Row>
+                            </Container>
                         </Col>
                     </Row>
-                    <p className='d-none d-lg-block'>{user.description} </p>
                 </Container>
                 <PostContainer post={user.post}></PostContainer>
             </Container>

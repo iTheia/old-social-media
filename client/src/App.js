@@ -8,6 +8,8 @@ import Post from './pages/Post'
 import Explore from './pages/Explore'
 import Messages from './pages/Messages'
 import Create from './pages/Create'
+import Error404 from './pages/Error404'
+import EditProfile from './pages/EditProfile'
 
 export default function App() {
   return (
@@ -20,6 +22,8 @@ export default function App() {
         <Route path="/profiles/:id" component={Profile} />
         <Route path="/posts/:id" component={Post} />
         <ProtectedRoute path="/create" component={Create}  />
+        <Route path="/edit/profile" component={EditProfile}  />
+        <Route path="*" component={Error404} />
       </Switch>
     </Router>
   )

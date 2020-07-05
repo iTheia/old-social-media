@@ -5,7 +5,7 @@ import mongoose from 'mongoose'
 const controller = {
     async getDshboard(req, res){
         const id = mongoose.Types.ObjectId(req._id)
-        const user = await User.findById(id).select('name')
+        const user = await User.findById(id).select('name avatar')
         res.send(user)
     },
     async getSingle(req, res){
@@ -26,15 +26,22 @@ const controller = {
         res.status(200).send(user)
     },
     async create(req, res){
-        const emailExist = await User.findOne({email:req.body.email})
+        const { email , userName, name, password } = req.body
+        const emailExist = await User.findOne({email})
         if(emailExist){
             return res.status(400).send('email alredy exists')
         }
-        const userNameExist = await User.findOne({userName:req.body.userName})
+        const userNameExist = await User.findOne({userName})
         if(userNameExist){
             return res.status(400).send('user name alredy exists')
         }
-        const user = new User(req.body)
+        const user = new User({
+            email,
+            userName,
+            name,
+            password,
+            avatar:'user.svg'
+        })
         await user.save()
         const token = user.generateAuthToken()
         res.header('x-access-token',token).status(200).send(token)

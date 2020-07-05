@@ -1,4 +1,4 @@
-import React, { useEffect }  from 'react'
+import React from 'react'
 import { Link, NavLink } from 'react-router-dom'
 import { Container } from "react-bootstrap";
 import useGet from '../hooks/useGet'
@@ -13,7 +13,6 @@ export default function Navbar() {
         }
     })
     
-
     return (
         <div className="navbar">
             <Container>
@@ -32,7 +31,7 @@ export default function Navbar() {
                                     {link.svg}
                                 </NavLink>))}
                             <Link className="icon" to={`/profiles/${user._id}`} >
-                                <img src={require('./test.jpg')} alt=""/>
+                                <img src={`/images/${user.avatar}`} alt=""/>
                             </Link>
                         </>)}
                 </div>

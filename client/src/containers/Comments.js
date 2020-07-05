@@ -1,11 +1,14 @@
 import React,{ useState,useEffect } from 'react'
 import axios from 'axios'
+import {Container} from 'react-bootstrap'
 import CommentForm  from '../components/CommentForm'
+import jwtDecode from 'jwt-decode'
 
 const Comments = (props) => {
     const { from, post_id } = props
     const [comments, setComments] = useState([])
-   
+    const token = localStorage.getItem('token')
+
     const fetchComments = async () =>{
         if(from === "home"){
             setComments(props.comments)
@@ -23,15 +26,24 @@ const Comments = (props) => {
         fetchComments()
     },[])
 
-    const printComments = () => comments.map((comment) => <div key={comment._id}>
-        {comment.content}
+    const printOptionButton = id =>{
+        if(!token) return
+        const user = jwtDecode(token)
+        if(user._id !== id)return
+        return <button className="options__button" style={{width:'20px'}}>
+            <img src="/images/more.png" alt=""/>
+        </button>
+    }
+    const printComments = () => comments.map((comment) => <div className="comment" key={comment._id}>
+            <span>{comment.content}</span>
+            {printOptionButton(comment.author)}
     </div>)
     
     return (
         <div className="comments-container">
-            {
-                printComments()
-            }
+            <Container>
+                {printComments()}
+            </Container>
             <CommentForm></CommentForm>
         </div>
     )

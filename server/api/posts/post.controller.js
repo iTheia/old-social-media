@@ -34,7 +34,7 @@ const controller = {
     },
     async getSingle(req, res){
         const post_id = mongoose.Types.ObjectId(req.params.id)
-        const post = await Post.findById(post_id).select('-comments')
+        const post = await Post.findById(post_id).select('-comments').populate('author')
         res.status(200).send(post)
     },
     async like(req, res){

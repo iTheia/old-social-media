@@ -10,6 +10,11 @@
         justify-content: space-between;
         padding: 5px 8px;
         border-bottom: 1px solid #dbdbdb;
+        .post__author-info{
+            img{
+                width: 32px;
+            }
+        }
     }
     &__media{
         display: flex;
@@ -43,7 +48,12 @@
         background-color: $grey;
     }
 }
-
+.options__button{
+    max-width: 32px;
+    *{
+        max-width: 100%;
+    }
+}
 .commentForm{
     border-top: 1px solid #dbdbdb;
     display: flex;
