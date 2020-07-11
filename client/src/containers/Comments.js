@@ -25,7 +25,8 @@ const Comments = (props) => {
     useEffect(()=>{
         fetchComments()
     },[])
-
+    const addComment = comment => setComments([...comments, comment ])
+    
     const printOptionButton = id =>{
         if(!token) return
         const user = jwtDecode(token)
@@ -44,7 +45,7 @@ const Comments = (props) => {
             <Container>
                 {printComments()}
             </Container>
-            <CommentForm></CommentForm>
+            <CommentForm  addComment={addComment} post_id={post_id}></CommentForm>
         </div>
     )
 }
