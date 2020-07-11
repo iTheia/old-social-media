@@ -32,9 +32,9 @@ const upload = multer({
 })
 
 postRouter.get('/likes/:id', authorization, catchErrors(controller.like))
-
 postRouter.use('/:post_id/comments', commentRoute)
 
+postRouter.get('/explore', catchErrors(controller.explore))
 postRouter.route('/')
     .get(catchErrors(controller.getAll))
     .post(authorization, [

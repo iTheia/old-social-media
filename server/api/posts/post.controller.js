@@ -3,6 +3,10 @@ import Post from './post.model'
 import { userModel } from '../users'
 
 const controller = {
+    async explore(req, res){
+        const response = await Post.find().sort({createdAt:1}).select('media')
+        res.send(response)
+    },
     async getAll(req, res){
         const posts = await Post.find().populate('author').populate('comments').slice('comments',2)
         res.status(200).send(posts)
