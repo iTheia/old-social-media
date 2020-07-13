@@ -6,6 +6,7 @@ import path from 'path'
 import router from './router'
 import connection from './database'
 import config from './config'
+import { addUser, removeUser, getUser, userInRoom } from './userSockets'
 
 const app = express()
 const server = http.createServer(app)
@@ -28,6 +29,21 @@ app.get('*', (req, res) => {
         if (err) {
             res.status(500).send(err)
         }
+    })
+})
+
+io.on('connection', socket =>{
+    socket.on('join', ({name, room}, callback) =>{
+        const user = addUser({id:socket.id, name, room})
+        socket.join(user.room)
+    })
+    socket.on('sendMessage', ({message}, callback) =>{
+        const user = getUser(socket.id)
+        io.to(user.room).emit('message', { user:user.name, message:message})
+        callback()
+    })
+    socket.on('discconect', ()=>{
+        removeUser(socket.id)
     })
 })
 

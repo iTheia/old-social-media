@@ -17,12 +17,12 @@ export default function App() {
       <Switch>
         <ProtectedRoute  exact path="/" component={Home} />
         <Route exact path="/login" component={Login} />
-        <ProtectedRoute path="/messages" component={Messages} />
-        <ProtectedRoute path="/explore" component={Explore}/>
+        <Route path="/edit/profile" component={EditProfile}  />
         <Route path="/profiles/:id" component={Profile} />
         <Route path="/posts/:id" component={Post} />
+        <ProtectedRoute path="/messages" component={Messages} />
+        <ProtectedRoute path="/explore" component={Explore}/>
         <ProtectedRoute path="/create" component={Create}  />
-        <Route path="/edit/profile" component={EditProfile}  />
         <Route path="*" component={Error404} />
       </Switch>
     </Router>
