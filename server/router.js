@@ -3,6 +3,7 @@ import { body } from 'express-validator'
 import { catchErrors, authorization } from './middlewares'
 import { userRoute, userController } from './api/users'
 import { postRoute } from './api/posts'
+import { messageRoute } from './api/messages'
 
 const router = express.Router()
 
@@ -22,5 +23,6 @@ router.get('/unfollow/:id', authorization, catchErrors(userController.unfollow))
 
 router.use('/users', userRoute)
 router.use('/posts', postRoute)
+router.use('/messages', messageRoute)
 
 export default router

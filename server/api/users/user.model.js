@@ -42,7 +42,11 @@ const userSchema = Schema({
     },
     avatar:{
         Type:String
-    }
+    },
+    rooms:[{
+        ref:'Room',
+        type:Schema.Types.ObjectId
+    }]
 }, { timestamps: true})
 
 userSchema.pre('save', async function(next){

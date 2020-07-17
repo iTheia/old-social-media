@@ -25,6 +25,14 @@ const controller = {
         const user = await User.findByIdAndUpdate(id, req.body, {new:true})
         res.status(200).send(user)
     },
+    async getFollows(req, res){
+        const user_id = mongoose.Types.ObjectId(req._id)
+        const follows = await User.findById(user_id,{follows:1, _id:0}).populate('follows',{
+            name:1,
+            avatar:1
+        })
+        res.send(follows.follows)
+    },
     async create(req, res){
         const { email , userName, name, password } = req.body
         const emailExist = await User.findOne({email})

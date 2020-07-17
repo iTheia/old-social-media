@@ -1,0 +1,8 @@
+.new-message{
+    *{
+        :focus{
+            outline: $blue;
+            border: $blue;
+        }
+    }
+}

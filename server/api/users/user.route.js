@@ -6,6 +6,7 @@ import controller from './user.controller'
 const userRouter = express.Router()
 
 userRouter.get('/', authorization,  catchErrors(controller.getDshboard))
+userRouter.get('/getParam/follows', authorization, catchErrors(controller.getFollows))
 
 userRouter.route('/:id')
     .get(catchErrors(controller.getSingle))

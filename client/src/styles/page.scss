@@ -2,6 +2,21 @@
     min-height: 100vh;
 }
 .messages-container{
-    background: #000;
+    margin-top: 20px;
+    background: $white;
+    border: 1px solid $dark;
     height:90vh;
+}
+.inbox-header{
+    padding: 9px 0;
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    border-bottom: 1px solid $dark;
+    align-items: center;
+}
+.flex{
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
 }

@@ -6,10 +6,12 @@ import path from 'path'
 import router from './router'
 import connection from './database'
 import config from './config'
-import { addUser, removeUser, getUser, userInRoom } from './userSockets'
+import socketio from 'socket.io'
+import { addUser, removeUser, getUser, userInRoom } from './util/userSockets'
 
 const app = express()
 const server = http.createServer(app)
+const io = socketio(server)
 
 connection()
 
@@ -33,6 +35,7 @@ app.get('*', (req, res) => {
 })
 
 io.on('connection', socket =>{
+    console.log('connection')
     socket.on('join', ({name, room}, callback) =>{
         const user = addUser({id:socket.id, name, room})
         socket.join(user.room)
