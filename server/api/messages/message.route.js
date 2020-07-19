@@ -10,7 +10,7 @@ meessageRouter.route('/')
     .post(authorization, catchErrors(controller.create))
 
 meessageRouter.route('/:id')
-    .get(catchErrors(controller.getSingle))
+    .get(authorization,catchErrors(controller.getSingle))
 
 meessageRouter.route('/:room_id/message')
     .post(authorization,[

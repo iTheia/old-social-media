@@ -6,3 +6,14 @@
         }
     }
 }
+.message-area{
+    border: 2px solid black;
+    height: 100%;
+}
+.contact-list{
+    border: 2px solid black;
+    height: calc(100% - 40px);
+}
+.inbox-header{
+    height: 40px;
+}

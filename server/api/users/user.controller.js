@@ -27,10 +27,7 @@ const controller = {
     },
     async getFollows(req, res){
         const user_id = mongoose.Types.ObjectId(req._id)
-        const follows = await User.findById(user_id,{follows:1, _id:0}).populate('follows',{
-            name:1,
-            avatar:1
-        })
+        const follows = await User.findById(user_id).populate('follows', 'userName avatar').select('follows')
         res.send(follows.follows)
     },
     async create(req, res){

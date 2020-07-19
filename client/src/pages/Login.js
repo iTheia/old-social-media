@@ -1,31 +1,26 @@
-import React,{useState, useEffect} from 'react'
+import React, { useEffect } from 'react'
 import axios from 'axios'
 import {useHistory} from 'react-router-dom'
 import useInput from '../hooks/useInput'
 
-export default function Login(props) {
+export default function Login() {
     
-    const [state, setstate] = useState('login')
     const baseURL = localStorage.getItem('URL')
     const token = localStorage.getItem('token')
+
     const history = useHistory()
-    const [ user, bindUser ] = useInput({
+
+    const [ user, bindUser, cleanUp ] = useInput({
         name:'',
         email:'',
         password:''
     })
-
+    useEffect(()=>{
+        return () =>cleanUp()
+    },[])
     if(token){
         history.push('/')
     }
-    useEffect(()=>{
-        if(props.location.action !== undefined){
-            setstate(props.location.action.actionName)
-        }
-        return () =>{
-            setstate('login')
-        }
-    },[])
     
     const login = async e =>{
         e.preventDefault()

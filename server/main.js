@@ -35,14 +35,14 @@ app.get('*', (req, res) => {
 })
 
 io.on('connection', socket =>{
-    console.log('connection')
-    socket.on('join', ({name, room}, callback) =>{
-        const user = addUser({id:socket.id, name, room})
+    socket.on('join', ({room}, callback) =>{
+        const user = addUser({id:socket.id, room})
         socket.join(user.room)
     })
-    socket.on('sendMessage', ({message}, callback) =>{
+    socket.on('sendMessage', (message, callback) =>{
         const user = getUser(socket.id)
-        io.to(user.room).emit('message', { user:user.name, message:message})
+        console.log( message)
+        io.to(user.room).emit('message', message)
         callback()
     })
     socket.on('discconect', ()=>{

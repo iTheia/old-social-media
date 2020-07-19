@@ -11,5 +11,6 @@ export default function useInput(initialState) {
             setData(copy)
         }
     }
-    return [ data, bind ]
+    const cleanUp = () => setData({})
+    return [ data, bind,cleanUp ]
 }

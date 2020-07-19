@@ -7,12 +7,12 @@ const ObjectId = mongoose.Types.ObjectId
 const controller = {
     async getSingle(req, res){
         const id = req.params.id
-        const rooms = await Room.findById(id)
-        res.status(200).send(rooms)
+        const room = await Room.findById(id).select('users').populate('users', 'userName avatar')
+        res.status(200).send(room)
     },
     async getAll(req, res){
         const id =  ObjectId(req._id)
-        const rooms = await Room.find({users:id},{messages:{$slice:-1}}).populate('users','name avatar').populate('messages', 'content')
+        const rooms = await Room.find({users:id},{messages:{$slice:-1}}).populate('users','userName avatar').populate('messages', 'content')
         res.status(200).send(rooms)
     },
     async create(req, res){
@@ -47,7 +47,7 @@ const controller = {
     async getMessages(req, res){
         const id =  ObjectId(req._id)
         const room_id = ObjectId(req.params.room_id)
-        const { page } = req.body
+        const { page } = req.headers
         controller.isMember(id, room_id)
         let quantity = 3
         let start = page * quantity

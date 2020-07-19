@@ -4,9 +4,10 @@ import axios from 'axios'
 import jwt_decode from 'jwt-decode'
 import { Container, Row, Col } from 'react-bootstrap'
 
+const token = localStorage.getItem('token')
 export default function UserInfo(props) {
     const [user, setUser] = useState(props.user)
-    const token = localStorage.getItem('token')
+    
     let _id
     if(token){
         _id = jwt_decode(token)._id
@@ -79,7 +80,7 @@ const IsMe = () =>{
                 <Col>
                 <button style={{color:'#ff1a1a'}} onClick={() => {
                     localStorage.removeItem('token')
-                    history.push('/')
+                    history.push('/login')
                 }}>
                     Log Out
                 </button>

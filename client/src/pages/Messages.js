@@ -30,7 +30,6 @@ export default function Messages(props) {
                 headers:{'x-access-token':token}
             })
             setFollows(response.data)
-            console.log(response.data)
         } catch (error) {
             console.log(error)
         }
@@ -42,9 +41,8 @@ export default function Messages(props) {
                 headers:{'x-access-token':token}
             })
             setRooms(response.data)
-            console.log(response.data)
         } catch (error) {
-            
+            console.log(error)
         }
     }
 
@@ -53,7 +51,7 @@ export default function Messages(props) {
             <Col md={8} style={{padding:'0 5px'}}>
                 <div className="flex">
                     <span className="icon"><img src={`/images/${follow.avatar}`} alt=""/></span> 
-                    <span>{follow.name}</span>
+                    <span style={{marginLeft:'5px'}}>{follow.userName}</span>
                 </div>
             </Col>
             <Col style={{padding:'0 5px'}}>
@@ -66,7 +64,8 @@ export default function Messages(props) {
         <div className="page">
             <Navbar></Navbar>
             <Container  className="messages-container">
-                <Row>
+                
+                <Row style={{height:'100%'}}>
                     <Col md={4} style={{padding:'0'}}>
                         <header className="inbox-header">
                             <div></div>
@@ -92,7 +91,7 @@ export default function Messages(props) {
                                 </Modal.Body>
                             </Modal>
                         </header>
-                        <ContactList rooms={rooms}/>
+                        <ContactList url={props.match.url}  rooms={rooms}/>
                     </Col>
                     <Col md={8} style={{padding:'0'}}>
                         <Switch>
