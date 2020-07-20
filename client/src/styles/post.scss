@@ -13,6 +13,7 @@
         .post__author-info{
             img{
                 width: 32px;
+                margin-right: 8px;
             }
         }
     }
@@ -49,9 +50,24 @@
     }
 }
 .options__button{
-    max-width: 32px;
+    width: 32px;
+    padding: 2px 5px;
     *{
         max-width: 100%;
+    }
+}
+.comment{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    min-height: 29px;
+    .options__button{
+        display: none;
+    }
+    &:hover{
+        .options__button{
+            display: block;
+        }   
     }
 }
 .commentForm{
@@ -72,5 +88,20 @@
         justify-content: center;
         font-size: 1rem;
         color: $blue;
+    }
+}
+
+.post-modal-row{
+    border-bottom: 2px solid $black;
+    text-align: center;
+    font-size: 15px;
+    justify-content: center;
+    align-content: center;
+    &:hover{
+        cursor: pointer;
+    }
+    &:last-of-type{
+        color:rgb(209, 75, 75);
+        border-bottom: none;
     }
 }

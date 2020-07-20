@@ -12,12 +12,12 @@ const token = localStorage.getItem('token')
 const baseURL = localStorage.getItem('URL')
 export default function Messages(props) {
 
-    const [show, setShow] = useState(false);
+    const [show, setShow] = useState(false)
     const [follows, setFollows] = useState([])
     const [rooms, setRooms] = useState([])
     
-    const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
+    const handleClose = () => setShow(false)
+    const handleShow = () => setShow(true)
 
     useEffect(() => {
         getFollows()
@@ -95,7 +95,7 @@ export default function Messages(props) {
                     </Col>
                     <Col md={8} style={{padding:'0'}}>
                         <Switch>
-                            <Route exact path={`${props.match.url}`} component={Inbox}/>
+                            <Route exact path={`${props.match.url}`} render={() => <Inbox printFollows={printFollows} follows={follows}/>}/>
                             <Route path={`${props.match.url}/:room`} component={TextChannel}/>
                         </Switch>
                     </Col>

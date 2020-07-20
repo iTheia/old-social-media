@@ -31,8 +31,12 @@
             background: none;
             border: none;
             position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
             background-color: #000;
             img{
+                height: 100%;
                 width: 100%;
             }
             .data{
@@ -63,13 +67,16 @@
         }
     }
 }
-.minor-container{
-    padding: 0 10%;   
+.profile-posts-container{
+    margin-top: 20px;
 }
-
-@media (max-width: 760px) {
+.minor-container{
+    margin-top: 20px;
+    padding: 0 0%;   
+}
+@media (max-width: 1024px) {
     .minor-container{
-        padding: 0 5%;
+        padding: 0%;
     }
 }
 

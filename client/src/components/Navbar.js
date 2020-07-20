@@ -7,11 +7,7 @@ export default function Navbar() {
 
     const token = localStorage.getItem('token')
 
-    const [user, loading, error, cleanUp] = useGet('users/',{},{
-        headers:{
-            'x-access-token':token
-        }
-    })
+    const [user, loading, error, cleanUp] = useGet('users/',{},true)
     
     return (
         <div className="navbar">

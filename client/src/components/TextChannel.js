@@ -1,4 +1,4 @@
-import React,{ useEffect, useState }  from 'react'
+import React,{ useEffect, useState, useRef }  from 'react'
 import io from 'socket.io-client'
 import axios from 'axios'
 import jwtDecode from 'jwt-decode'
@@ -14,12 +14,12 @@ const TextChannel = (props) => {
     const { room } = props.match.params
 
     const _id = jwtDecode(token)._id
-
+    const inputRef = useRef()
     const [message, setMessage] = useState('')
     const [messages, setMesages] = useState([])
     const [page, setPage] = useState(0)
     const [chat, loading] =useGet(`messages/${room}`,{},true)
-
+    
     
     useEffect(()=>{
         socket = io(ENDPOINT)
@@ -36,43 +36,129 @@ const TextChannel = (props) => {
     const getMessages = async () =>{
         try {
             const response = await axios.get(`${URL}messages/${room}/message`,{headers:{'x-access-token':token, page}})
-            console.log(response.data)
+            setMesages([{
+                content: "q", author: "5ef5827096509729281e2098"
+            },{
+                content: "q", author: "5ef5827096509729281e2098"
+            },{
+                content: "q", author: "5ef5827096509729281e2098"
+            },{
+                content: "q", author: "5ef5827096509729281e2098"
+            },{
+                content: "q", author: "5ef5827096509729281e2098"
+            },{
+                content: "q", author: "5ef5827096509729281e2098"
+            },{
+                content: "q", author: "5ef5827096509729281e2098"
+            },{
+                content: "q", author: "5ef5827096509729281e2098"
+            },{
+                content: "q", author: "5ef5827096509729281e2098"
+            },{
+                content: "q", author: "5ef5827096509729281e2098"
+            },{
+                content: "q", author: "5ef5827096509729281e2098"
+            },{
+                content: "q", author: "5ef5827096509729281e2098"
+            },{
+                content: "q", author: "5ef5827096509729281e2098"
+            },{
+                content: "q", author: "5ef5827096509729281e2098"
+            },{
+                content: "q", author: "5ef5827096509729281e2098"
+            },{
+                content: "q", author: "5ef5827096509729281e2098"
+            },{
+                content: "q", author: "5ef5827096509729281e2098"
+            },{
+                content: "q", author: "5ef5827096509729281e2098"
+            },{
+                content: "q", author: "5ef5827096509729281e2098"
+            },{
+                content: "q", author: "5ef5827096509729281e2098"
+            },{
+                content: "q", author: "5ef5827096509729281e2098"
+            },{
+                content: "q", author: "5ef5827096509729281e2098"
+            },{
+                content: "q", author: "5ef5827096509729281e2098"
+            },{
+                content: "q", author: "5ef5827096509729281e2098"
+            },{
+                content: "q", author: "5ef5827096509729281e2098"
+            },{
+                content: "q", author: "5ef5827096509729281e2098"
+            },{
+                content: "q", author: "5ef5827096509729281e2098"
+            },{
+                content: "q", author: "5ef5827096509729281e2098"
+            },{
+                content: "q", author: "5ef5827096509729281e2098"
+            },{
+                content: "q", author: "5ef5827096509729281e2098"
+            },{
+                content: "q", author: "5ef5827096509729281e2098"
+            },{
+                content: "q", author: "5ef5827096509729281e2098"
+            },{
+                content: "q", author: "5ef5827096509729281e2098"
+            },{
+                content: "q", author: "5ef5827096509729281e2098"
+            },{
+                content: "q", author: "5ef5827096509729281e2098"
+            },{
+                content: "q", author: "5ef5827096509729281e2098"
+            },{
+                content: "q", author: "5ef5827096509729281e2098"
+            },{
+                content: "q", author: "5ef5827096509729281e2098"
+            },{
+                content: "q", author: "5ef5827096509729281e2098"
+            },{
+                content: "q", author: "5ef5827096509729281e2098"
+            },{
+                content: "q", author: "5ef5827096509729281e2098"
+            },])
         } catch (error) {
             console.log(error)
         }
     }
     const sendMessage = async e =>{
         e.preventDefault()
-        if(message){
+        if(message.trim() !== ''){
             socket.emit('sendMessage', {
                 content:message,
                 author:_id
             }, () => setMessage(''))
         }
     }
-
     if(loading){
-        return <div className='message-area'></div>
+        return <div  className='message-area' ></div>
     }
+
     return (
         <div className='message-area'>
             <header className="inbox-header">
                 <div className="icon"></div>
             </header>
-            <Container className="message-container">
-                <Col>
-                    {messages.map((message, index) => <div key={index}>
-                        {message.content}
-                    </div>)}
+            <Container className="message-container"  onClick={() =>inputRef.current.focus()}>
+                <Col className="message-container__iner">
+                    {messages.map((message, index) => <Row key={index}>
+                        <div className={`message-from-${message.author === _id? "me":"other"}`}>
+                            {message.content}
+                        </div>
+                    </Row>)}
                 </Col>
             </Container>
-            <input type="text"
-                name="content"
-                value={message}
-                onChange={e => setMessage(e.target.value)}
-                onKeyPress={e => e.key === 'Enter'? sendMessage(e) :null}
-            />
-            <button onClick={()=>console.log(messages,chat)}>messages</button>
+            <Container>
+                <input type="text"
+                    ref={inputRef}
+                    name="content"
+                    value={message}
+                    onChange={e => setMessage(e.target.value)}
+                    onKeyPress={e => e.key === 'Enter'? sendMessage(e) :null}
+                />
+            </Container>
         </div>
     )
 }

@@ -42,10 +42,14 @@
     display: flex;
     justify-content: center;
     align-items: center;
-
+    margin-right: 10px;
     *{
         max-width: 150%;
     }
+}
+.icon-home{
+    width: 50px!important;
+    height: 50px!important;
 }
 
 a{

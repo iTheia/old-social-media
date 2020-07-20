@@ -6,14 +6,83 @@
         }
     }
 }
+
 .message-area{
-    border: 2px solid black;
-    height: 100%;
+    border-left: 1px solid $dark;
+    height: calc(90vh - 1px) ;
+    .message-container{
+        height: calc(100% - 90px);
+        padding: 10px 10px;
+        &__iner{
+            overflow-y: auto;
+            height: 100%;
+            &::-webkit-scrollbar {
+                display: none;
+            }
+        }
+        
+    }
+    
+    .message-from{
+        &-other{
+            text-align: start;
+            padding: 2px 5px;
+            margin: 2px 50%  2px  0 ;
+            border-radius: 15px 6px 9px 1px;
+            border: .2px solid #111;
+        }
+        &-me{
+            background: #efefef;
+            padding: 5px 10px 10px 5px;
+            margin: 2px 0 2px 50% ;
+            width: 50%;
+            border-radius: 8px 9px 0px 10px;
+            text-align: right;
+        }
+    }
+
+    input{
+        width: 100%;
+        border: 1px solid $dark;
+        border-radius: 8px;
+        height: 40px;
+        padding: 8px 10px;
+        &:focus{
+            outline: $blue;
+        }
+    }
 }
 .contact-list{
-    border: 2px solid black;
     height: calc(100% - 40px);
+    overflow-y: auto;
+    &::-webkit-scrollbar {
+        display: none;
+    }
+    .contact-row{
+        margin-top:10px;
+        height:50px;
+        padding: 5px;
+        &:hover{
+            background-color: $grey;
+        }
+    }
 }
+
 .inbox-header{
+    padding: 9px 0;
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    border-bottom: 1px solid $dark;
+    align-items: center;
     height: 40px;
+}
+
+.inbox{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+    padding: 0 10px;
+    flex-direction: column;
 }
