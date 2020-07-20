@@ -8,7 +8,15 @@ const controller = {
         res.send(response)
     },
     async getAll(req, res){
-        const posts = await Post.find().populate('author').populate('comments').slice('comments',2)
+        const posts = await Post.find().populate('author', 'name avatar').populate({
+            path:'comments',
+            populate:{
+                path:'author',
+                select:'userName'
+            },
+            select:'content'
+        }).slice('comments',-2).sort({createdAt:-1})
+        
         res.status(200).send(posts)
     },
     async create(req, res){
@@ -38,8 +46,13 @@ const controller = {
     },
     async getSingle(req, res){
         const post_id = mongoose.Types.ObjectId(req.params.id)
-        const post = await Post.findById(post_id).select('-comments').populate('author')
-        res.status(200).send(post)
+        const post = await Post.findById(post_id).select('-comments').populate('author', 'name avatar')
+        const relatedPost = await userModel.findById(post.author._id).populate({
+            path:'post',
+            select:'media likes comments',
+            limit:6
+        }).select('userName')
+        res.status(200).send({post,relatedPost:relatedPost.post})
     },
     async like(req, res){
         const user_id = mongoose.Types.ObjectId(req._id)

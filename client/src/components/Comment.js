@@ -15,16 +15,16 @@ const Comment = (props) => {
     
     const deleteComment = async () =>{
         try {
-            const response = await axios.delete(`${url}posts/${post_id}/comments/${comment._id}`,{headers:{'x-access-token':token}})
+            await axios.delete(`${url}posts/${post_id}/comments/${comment._id}`,{headers:{'x-access-token':token}})
             deleteC(comment._id)
         } catch (error) {
             console.log(error)
         }
     }
-    const printOptionButton = id =>{
+    const printOptionButton = () =>{
         if(!token) return
         const user = jwtDecode(token)
-        if(user._id !== id)return
+        if(user._id !== comment.author._id)return
         return <React.Fragment>
             <button className="options__button" onClick={handleShow} style={{width:'20px'}}>
                 <img src="/images/more.png" alt=""/>
@@ -42,8 +42,8 @@ const Comment = (props) => {
         </React.Fragment> 
     }
     return <div className="comment">
-        <span>{comment.content}</span>
-        {printOptionButton(comment.author)}
+        <span><strong>{comment.author.userName}</strong> {comment.content}</span>
+        {printOptionButton()}
     </div>
 }
 

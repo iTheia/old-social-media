@@ -1,9 +1,13 @@
 import React from 'react'
 import { Link } from "react-router-dom"
 
-const Post = (props) =>(
-    <div className="profile-posts-container">
-        {props.post.map(post => (
+const Post = (props) =>{
+    const {loading, post} = props
+    if(loading){
+        return <div className="profile-posts-container"></div>
+    }
+    return <div className="profile-posts-container">
+        {post.map(post => (
             <Link to={`/posts/${post._id}`} key={post._id} className="post-profile">
                 <img className="image" src={`/images/${post.media}`} alt=""/>
                 <div className="data">
@@ -23,5 +27,5 @@ const Post = (props) =>(
             </Link>
         ))}
     </div>
-)
+}
 export default Post

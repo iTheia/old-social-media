@@ -7,17 +7,13 @@ const baseClip = localStorage.getItem('Clip')
 
 export default function Post(props) {
     
-    const [show, setShow] = useState(false);
-    const history = useHistory()
-
-    const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
-
     const { loading, post, from } = props
-    
-    if(loading){
-        return <article className="post blank" style={{height:'400px'}}></article>
-    }
+
+    const history = useHistory()
+    const [show, setShow] = useState(false)
+    const handleClose = () => setShow(false)
+    const handleShow = () => setShow(true)
+
     const copyToClipBoard = () =>{
         const url = `${baseClip}/posts/${post._id}`
         const dummy = document.createElement('input')
@@ -32,32 +28,53 @@ export default function Post(props) {
         handleClose()
         history.push(`/posts/${post._id}`)
     }
-    return <article className="post">
-        <header>
-            <Link to={`/profiles/${post.author._id}`} className="post__author-info">
-                <img className="author__image" src={`/images/${post.author.avatar}`} alt=""/>
-                <label>{post.author.name}</label>
-            </Link>
-            <div className="options">
-                <button className="options__button" onClick={handleShow}>
-                    <img src="/images/more.png" alt=""/>
-                </button>
-                <Modal size="sm" show={show} onHide={handleClose} animation={false}>
-                    <Modal.Body >
-                        <Container style={{padding:'0'}}>
-                            <Col style={{padding:'0'}}>
-                                <Row className="post-modal-row" onClick={copyToClipBoard}>Copy Link</Row>
-                                <Row className="post-modal-row" onClick={goToPost}>Go to post</Row>
-                                <Row className="post-modal-row" onClick={handleClose}>Close</Row>
-                            </Col>
-                        </Container>
-                    </Modal.Body>
-                </Modal>
-            </div>
-        </header>
-        <div className="post__media">
-            <img className="post-image" src={`/images/${post.media}`} alt=""/>
+    const Header = () => <header>
+        <Link to={`/profiles/${post.author._id}`} className="post__author-info">
+            <img className="author__image" src={`/images/${post.author.avatar}`} alt=""/>
+            <label>{post.author.name}</label>
+        </Link>
+        <div className="options">
+            <button className="options__button" onClick={handleShow}>
+                <img src="/images/more.png" alt=""/>
+            </button>
+            <Modal size="sm" show={show} onHide={handleClose} animation={false}>
+                <Modal.Body >
+                    <Container style={{padding:'0'}}>
+                        <Col style={{padding:'0'}}>
+                            <Row className="post-modal-row" onClick={copyToClipBoard}>Copy Link</Row>
+                            <Row className="post-modal-row" onClick={goToPost}>Go to post</Row>
+                            <Row className="post-modal-row" onClick={handleClose}>Close</Row>
+                        </Col>
+                    </Container>
+                </Modal.Body>
+            </Modal>
         </div>
+    </header>
+
+    const PostMedia = () => <div className="post__media">
+        <img className="post-image" src={`/images/${post.media}`} alt=""/>
+    </div>
+    if(loading){
+        return <article className="post blank" style={{height:'400px'}}></article>
+    }
+
+    if(from ==="post"){
+        return <Container  className="post">
+            <Row>
+                <Col md={8}>
+                    {PostMedia()}
+                </Col>
+                <Col>
+                    <Row>{Header()}</Row>
+                    <Row><Comments from={from} post_id={post._id} comments={post.comments}></Comments></Row>
+                </Col>
+            </Row>
+        </Container>
+    }
+
+    return <article className="post">
+        {Header()}
+        {PostMedia()}
         <div className="post__footer">
             <div className="post__footer-info">
                 <div className="actions">

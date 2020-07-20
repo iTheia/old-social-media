@@ -5,7 +5,14 @@ import mongoose from 'mongoose'
 const controller = {
     async getAll(req, res){
         const post_id = mongoose.Types.ObjectId(req.params.post_id)
-        const comments = await postModel.findById(post_id).select('comments').populate('comments')
+        const comments = await postModel.findById(post_id).select('comments').populate({
+            path:'comments',
+            select:'content',
+            populate:{
+                path:'author',
+                select:'userName'
+            }
+        })
         res.send(comments)
     },
     async delete(req, res){

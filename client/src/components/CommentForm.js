@@ -1,34 +1,34 @@
 import React,{ useState } from 'react'
 import axios from 'axios'
 
+const token = localStorage.getItem('token')
+const baseURL = localStorage.getItem('URL')
+
 export default function CommentForm(props) {
+
+    const {post_id, addComment} = props
+    const [comment, setComment] = useState('')
     
-    const token = localStorage.getItem('token')
-    const baseURL = localStorage.getItem('URL')
-    
-    const [comment, setComment] = useState({
-        content:''
-    })
-    const onChange = async e =>{
-        setComment({content:e.target.value})
-    }
     const postComment = async e =>{
         e.preventDefault()
         try {
-            const response = await axios.post(`${baseURL}posts/${props.post_id}/comments/`, comment,{
+            const response = await axios.post(`${baseURL}posts/${post_id}/comments/`, {
+                content:comment
+            },{
                 headers:{
                     'x-access-token':token
                 }
             })
-            setComment({content:''})
-            props.addComment(response.data)
+            setComment('')
+            console.log(response.data)
+            addComment(response.data)
         } catch (error) {
             alert(error)
         }
     }
     return (
         <div className="commentForm">
-            <input onChange={onChange} onKeyPress={e => e.key === 'Enter'? postComment(e): null} placeholder="Leave a comment" className="input" type="text"/>
+            <input value={comment} onChange={e => setComment(e.target.value)} onKeyPress={e => e.key === 'Enter'? postComment(e): null} placeholder="Leave a comment" className="input" type="text"/>
             <button onClick={postComment}>Publicar</button>
         </div>
     )
