@@ -78,9 +78,9 @@ const IsMe = () =>{
                     </Link>
                 </Col>
                 <Col>
-                <button style={{color:'#ff1a1a'}} onClick={() => {
-                    localStorage.removeItem('token')
-                    history.push('/login')
+                <button style={{color:'#ff1a1a'}} onClick={async () => {
+                    await localStorage.removeItem('token')
+                    history.push('/notfound')
                 }}>
                     Log Out
                 </button>

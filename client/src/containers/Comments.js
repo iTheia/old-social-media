@@ -31,10 +31,10 @@ const Comments = (props) => {
     
     return (
         <div className="comments-container">
-            <Container>
+            <Container >
                 {printComments()}
             </Container>
-            <CommentForm  addComment={addComment} post_id={post_id}></CommentForm>
+            <CommentForm from={from} addComment={addComment} post_id={post_id}></CommentForm>
         </div>
     )
 }

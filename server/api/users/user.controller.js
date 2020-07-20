@@ -1,6 +1,7 @@
 import User from './user.model'
 import bcrypt from 'bcryptjs'
 import mongoose from 'mongoose'
+import pick from 'lodash.pick'
 
 const controller = {
     async getDshboard(req, res){
@@ -17,12 +18,31 @@ const controller = {
         const users = await User.find({},{ notifications: 0, password:0})
         res.status(200).send(users)
     },
-    async update(req, res){
-        const id = req.params.id
-        if(req._id !== id){
-            return res.status(400).send('you have not permission')
+    async getEditable(req, res){
+        const id = mongoose.Types.ObjectId(req._id)
+        let user = await User.findById(id).select('name avatar email')
+        if(!user){
+            return res.status(400).send(new Error('user not exist'))
         }
-        const user = await User.findByIdAndUpdate(id, req.body, {new:true})
+        res.send(user)
+    },
+    async update(req, res){
+        const id = mongoose.Types.ObjectId(req._id)
+        const user = await User.findById(id)
+        let newPassword = user.password
+        if(req.body.newPassword && req.body.newPassword !== "" ){
+            const password = await bcrypt.compare(req.body.password, user.password)
+            if(!password){
+                return res.status(400).send('Invalid password')
+            }
+            const salt = await bcrypt.genSalt(10)
+            newPassword = await bcrypt.hash(req.body.newPassword, salt)
+        }
+        let avatar = user.avatar
+        if(req.file){
+            avatar = req.file.filename
+        }
+        await user.updateOne({name:req.body.name,email:req.body.email, password:newPassword, avatar})
         res.status(200).send(user)
     },
     async getFollows(req, res){

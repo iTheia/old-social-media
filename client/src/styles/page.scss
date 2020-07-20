@@ -12,3 +12,23 @@
     align-items: center;
     justify-content: flex-start;
 }
+.edit-profile{
+    .edit-container{
+        margin-top: 20px;
+    }
+}
+.page{
+    .login{
+        
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .container{
+        height: 80vh;
+    }
+    }
+    
+}
+.contained{
+    max-width: 100%;
+}

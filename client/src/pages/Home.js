@@ -1,15 +1,21 @@
 import React,{useEffect} from 'react'
 import { Container, Row, Col, Card } from 'react-bootstrap'
+import {useHistory} from 'react-router-dom'
 import useGet from '../hooks/useGet'
 import Post from '../components/Post'
 import Navbar from '../components/Navbar'
 
+const token = localStorage.getItem('token')
 export default function Home() {
    
     const [ posts, loading, error,cleanUp ] = useGet('posts/')
     const [user, loadingUser, errorUser, cleanUpUser] = useGet('users/',{},true)
-
+    const history = useHistory()
+    
     useEffect(() => {
+        if(!token){
+            history.push('/login')
+        }
         return () => {
             cleanUp()
         }

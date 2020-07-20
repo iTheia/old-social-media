@@ -28,6 +28,7 @@ export default function Post(props) {
         handleClose()
         history.push(`/posts/${post._id}`)
     }
+
     const Header = () => <header>
         <Link to={`/profiles/${post.author._id}`} className="post__author-info">
             <img className="author__image" src={`/images/${post.author.avatar}`} alt=""/>
@@ -59,14 +60,18 @@ export default function Post(props) {
     }
 
     if(from ==="post"){
-        return <Container  className="post">
+        return <Container  className="post" >
             <Row>
-                <Col md={8}>
+                <Col md={8}id="post" style={{
+                    margin:0,
+                    padding:0
+                }}>
                     {PostMedia()}
                 </Col>
                 <Col>
+
                     <Row>{Header()}</Row>
-                    <Row><Comments from={from} post_id={post._id} comments={post.comments}></Comments></Row>
+                    <Row className="comments-row"><Comments from={from} post_id={post._id} comments={post.comments}></Comments></Row>
                 </Col>
             </Row>
         </Container>

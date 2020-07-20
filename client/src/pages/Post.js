@@ -1,13 +1,20 @@
-import React,{useEffect} from 'react'
+import React from 'react'
 import {Container } from 'react-bootstrap'
+import { useHistory } from 'react-router-dom'
+import useGet from '../hooks/useGet'
 import Navbar from '../components/Navbar'
 import PostContent from '../components/Post'
-import useGet from '../hooks/useGet'
 import RelatedPost from '../containers/Post'
 
 export default function Post(props) {
 
     const [ data, loading, error ] = useGet(`posts/${props.match.params.id}`,false,{})
+    const history = useHistory()
+    
+
+    if(error){
+        history.push('/notfound')
+    }
     return (
         <div className="page">
             <Navbar></Navbar>

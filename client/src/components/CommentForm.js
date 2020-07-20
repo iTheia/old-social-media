@@ -6,7 +6,7 @@ const baseURL = localStorage.getItem('URL')
 
 export default function CommentForm(props) {
 
-    const {post_id, addComment} = props
+    const {post_id, addComment, from} = props
     const [comment, setComment] = useState('')
     
     const postComment = async e =>{
@@ -20,14 +20,13 @@ export default function CommentForm(props) {
                 }
             })
             setComment('')
-            console.log(response.data)
             addComment(response.data)
         } catch (error) {
             alert(error)
         }
     }
     return (
-        <div className="commentForm">
+        <div className={`commentForm${from==="post"? "-from-post":""}`}>
             <input value={comment} onChange={e => setComment(e.target.value)} onKeyPress={e => e.key === 'Enter'? postComment(e): null} placeholder="Leave a comment" className="input" type="text"/>
             <button onClick={postComment}>Publicar</button>
         </div>

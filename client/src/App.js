@@ -16,7 +16,7 @@ export default function App() {
     <Router>
       <Switch>
         <ProtectedRoute  exact path="/" component={Home} />
-        <Route exact path="/login" component={Login} />
+        <Route path="/login" component={Login} />
         <Route path="/edit/profile" component={EditProfile}  />
         <Route path="/profiles/:id" component={Profile} />
         <Route path="/posts/:id" component={Post} />

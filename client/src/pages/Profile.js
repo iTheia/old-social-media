@@ -1,5 +1,6 @@
 import React,{useEffect} from 'react'
-import { Container, Row, Col } from 'react-bootstrap';
+import { Container, Row, Col } from 'react-bootstrap'
+import { useHistory } from 'react-router-dom'
 import useGet from '../hooks/useGet'
 import PostContainer from '../containers/Post'
 import Navbar from '../components/Navbar'
@@ -9,8 +10,16 @@ import UserInfo from '../components/UserInfo'
 export default function Profile(props) {
     
     const [ user, loading, error, cleanUp  ] = useGet(`users/${props.match.params.id}`,{},true,[props.match.params.id])
-
+    const history = useHistory()
+    
+    if(error){
+        history.push('/notfound')
+    }
+    
     useEffect(() => {
+        if(error){
+            history.push('/notfound')
+        }
         return () => {
             cleanUp()
         }
@@ -25,7 +34,7 @@ export default function Profile(props) {
             <Container style={{marginTop:'20px'}} className="minor-container">
                 <Container >
                     <Row>
-                        <Col md={3} sm={4}>
+                        <Col md={3} className="profile-image"  sm={4}>
                             <div className="user-image">
                                 <img src={`/images/${user.avatar}`} alt=""/>
                             </div>

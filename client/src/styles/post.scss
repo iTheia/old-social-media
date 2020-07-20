@@ -49,6 +49,21 @@
     .blank{
         background-color: $grey;
     }
+    .comments-container{
+        width: 100%;
+        height: calc(100% - 50px);
+        .container{
+            height: 100%;
+        }
+        overflow-y: auto;
+        &::-webkit-scrollbar {
+            display: none;
+        }
+    }
+    .comments-row{
+        position: relative;
+        height: calc(500px - 45px);
+    }
 }
 .options__button{
     width: 32px;
@@ -72,10 +87,17 @@
     }
 }
 .commentForm{
+    &-from-post{
+        @extend .commentForm;
+        position: absolute;
+        bottom: 0;
+    }
+    width: 100%;
     border-top: 1px solid #dbdbdb;
     display: flex;
     align-items: center;
     padding: 5px;
+    height: 50px;
     .input{
         height: 20px;
         width: 80%;
