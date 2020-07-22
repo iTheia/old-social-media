@@ -4,10 +4,16 @@ import { userModel } from '../users'
 
 const controller = {
     async explore(req, res){
-        const response = await Post.find().sort({createdAt:1}).select('media')
+        const { page } = req.headers
+        let quantity = 15
+        let start = page * quantity
+        const response = await Post.find().sort({createdAt:1,likes:1}).select('media likes comments').limit(quantity).skip(start)
         res.send(response)
     },
     async getAll(req, res){
+        const { page } = req.headers
+        let quantity = 3
+        let start = page * quantity
         const posts = await Post.find().populate('author', 'name avatar').populate({
             path:'comments',
             populate:{
@@ -15,7 +21,7 @@ const controller = {
                 select:'userName'
             },
             select:'content'
-        }).slice('comments',-2).sort({createdAt:-1})
+        }).slice('comments',-2).sort({createdAt:-1}).limit(quantity).skip(start)
         
         res.status(200).send(posts)
     },

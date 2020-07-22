@@ -1,28 +1,35 @@
-import mongoose from 'mongoose'
+import mongoose from "mongoose";
 
-const Schema = mongoose.Schema
+const Schema = mongoose.Schema;
 
-const postSchema = Schema({
-    description:{
-        type:String
+const postSchema = Schema(
+  {
+    description: {
+      type: String,
     },
-    media:{
-        type:String
+    media: {
+      type: String,
     },
-    author:{
-        type: Schema.Types.ObjectId,
-        ref:'User'
+    author: {
+      type: Schema.Types.ObjectId,
+      ref: "User",
     },
-    likes:[{
+    likes: [
+      {
         type: Schema.Types.ObjectId,
-        ref:'User'
-    }],
-    comments:[{
+        ref: "User",
+      },
+    ],
+    comments: [
+      {
         type: Schema.Types.ObjectId,
-        ref:'Comment'
-    }]
-}, {timestamps:true})
+        ref: "Comment",
+      },
+    ],
+  },
+  { timestamps: true }
+);
 
-const Post =  mongoose.model('Post', postSchema)
+const Post = mongoose.model("Post", postSchema);
 
-export default Post
+export default Post;
