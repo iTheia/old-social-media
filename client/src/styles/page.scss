@@ -1,34 +1,40 @@
-.page{
+.page {
     min-height: 100vh;
 }
-.messages-container{
+
+.messages-container {
     margin-top: 20px;
     background: $white;
     border: 1px solid $dark;
-    height:90vh;
+    height: 90vh;
 }
-.flex{
+
+.flex {
     display: flex;
     align-items: center;
     justify-content: flex-start;
 }
-.edit-profile{
-    .edit-container{
+
+.edit-profile {
+    .edit-container {
         margin-top: 20px;
     }
 }
-.page{
-    .login{
-        
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    .container{
-        height: 80vh;
+
+.page {
+    .login {
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        .container {
+            height: 80vh;
+        }
     }
-    }
-    
+
 }
-.contained{
+
+.contained {
     max-width: 100%;
 }

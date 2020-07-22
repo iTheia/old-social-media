@@ -1,166 +1,70 @@
-import React,{ useEffect, useState, useRef }  from 'react'
-import io from 'socket.io-client'
-import axios from 'axios'
-import jwtDecode from 'jwt-decode'
-import useGet from '../hooks/useGet'
-import {Container, Row, Col} from 'react-bootstrap'
+import React, { useState, useRef, useCallback } from 'react';
+import jwtDecode from 'jwt-decode';
+import { Container, Row, Col } from 'react-bootstrap';
+import useChat from '../hooks/useChatScroll';
 
-let socket 
-const ENDPOINT = 'http://localhost:5000/'
-const URL = localStorage.getItem('URL')
-const token = localStorage.getItem('token')
+const token = localStorage.getItem('token');
 
 const TextChannel = (props) => {
-    const { room } = props.match.params
+	const { room } = props.match.params;
 
-    const _id = jwtDecode(token)._id
-    const inputRef = useRef()
-    const [message, setMessage] = useState('')
-    const [messages, setMesages] = useState([])
-    const [page, setPage] = useState(0)
-    const [chat, loading] =useGet(`messages/${room}`,{},true)
-    
-    
-    useEffect(()=>{
-        socket = io(ENDPOINT)
-        socket.emit('join',{room}, () => {})
-        getMessages()
-    },[room, ENDPOINT])
+	const _id = jwtDecode(token)._id;
+	const [page, setPage] = useState(0);
+	const [loading, error, hasMore, messages, bind] = useChat(page, room, _id);
+	const inputRef = useRef();
+	const observer = useRef();
+	const firstMessageRef = useCallback(
+		(node) => {
+			if (loading) return;
+			if (observer.current) observer.current.disconnect();
+			if (!hasMore) return;
+			observer.current = new IntersectionObserver((entries) => {
+				if (entries[0].isIntersecting) {
+					console.log(messages, loading);
+					setPage((page) => (page += 1));
+				}
+			});
+			if (node) observer.current.observe(node);
+		},
+		[loading, hasMore]
+	);
 
-    useEffect(()=>{
-        socket.on('message', ({content, author}) => {
-            setMesages(messages => [...messages, {content, author}])
-        })
-    },[])
+	if (loading) return <div></div>;
 
-    const getMessages = async () =>{
-        try {
-            const response = await axios.get(`${URL}messages/${room}/message`,{headers:{'x-access-token':token, page}})
-            setMesages([{
-                content: "q", author: "5ef5827096509729281e2098"
-            },{
-                content: "q", author: "5ef5827096509729281e2098"
-            },{
-                content: "q", author: "5ef5827096509729281e2098"
-            },{
-                content: "q", author: "5ef5827096509729281e2098"
-            },{
-                content: "q", author: "5ef5827096509729281e2098"
-            },{
-                content: "q", author: "5ef5827096509729281e2098"
-            },{
-                content: "q", author: "5ef5827096509729281e2098"
-            },{
-                content: "q", author: "5ef5827096509729281e2098"
-            },{
-                content: "q", author: "5ef5827096509729281e2098"
-            },{
-                content: "q", author: "5ef5827096509729281e2098"
-            },{
-                content: "q", author: "5ef5827096509729281e2098"
-            },{
-                content: "q", author: "5ef5827096509729281e2098"
-            },{
-                content: "q", author: "5ef5827096509729281e2098"
-            },{
-                content: "q", author: "5ef5827096509729281e2098"
-            },{
-                content: "q", author: "5ef5827096509729281e2098"
-            },{
-                content: "q", author: "5ef5827096509729281e2098"
-            },{
-                content: "q", author: "5ef5827096509729281e2098"
-            },{
-                content: "q", author: "5ef5827096509729281e2098"
-            },{
-                content: "q", author: "5ef5827096509729281e2098"
-            },{
-                content: "q", author: "5ef5827096509729281e2098"
-            },{
-                content: "q", author: "5ef5827096509729281e2098"
-            },{
-                content: "q", author: "5ef5827096509729281e2098"
-            },{
-                content: "q", author: "5ef5827096509729281e2098"
-            },{
-                content: "q", author: "5ef5827096509729281e2098"
-            },{
-                content: "q", author: "5ef5827096509729281e2098"
-            },{
-                content: "q", author: "5ef5827096509729281e2098"
-            },{
-                content: "q", author: "5ef5827096509729281e2098"
-            },{
-                content: "q", author: "5ef5827096509729281e2098"
-            },{
-                content: "q", author: "5ef5827096509729281e2098"
-            },{
-                content: "q", author: "5ef5827096509729281e2098"
-            },{
-                content: "q", author: "5ef5827096509729281e2098"
-            },{
-                content: "q", author: "5ef5827096509729281e2098"
-            },{
-                content: "q", author: "5ef5827096509729281e2098"
-            },{
-                content: "q", author: "5ef5827096509729281e2098"
-            },{
-                content: "q", author: "5ef5827096509729281e2098"
-            },{
-                content: "q", author: "5ef5827096509729281e2098"
-            },{
-                content: "q", author: "5ef5827096509729281e2098"
-            },{
-                content: "q", author: "5ef5827096509729281e2098"
-            },{
-                content: "q", author: "5ef5827096509729281e2098"
-            },{
-                content: "q", author: "5ef5827096509729281e2098"
-            },{
-                content: "q", author: "5ef5827096509729281e2098"
-            },])
-        } catch (error) {
-            console.log(error)
-        }
-    }
-    const sendMessage = async e =>{
-        e.preventDefault()
-        if(message.trim() !== ''){
-            socket.emit('sendMessage', {
-                content:message,
-                author:_id
-            }, () => setMessage(''))
-        }
-    }
-    if(loading){
-        return <div  className='message-area' ></div>
-    }
+	const printMessages = () =>
+		messages.map((message, index) => {
+			let props = {};
+			if (index === 0) {
+				props.ref = firstMessageRef;
+			}
+			return (
+				<Row key={index} {...props}>
+					<div
+						className={`message-from-${
+							message.author._id === _id ? 'me' : 'other'
+						}`}
+					>
+						{message.content}
+					</div>
+				</Row>
+			);
+		});
+	return (
+		<div className="message-area">
+			<header className="inbox-header">
+				<div className="icon"></div>
+			</header>
+			<Container
+				className="message-container"
+				onClick={() => inputRef.current.focus()}
+			>
+				<Col className="message-container__iner">{printMessages()}</Col>
+			</Container>
+			<Container>
+				<input type="text" ref={inputRef} name="content" {...bind} />
+			</Container>
+		</div>
+	);
+};
 
-    return (
-        <div className='message-area'>
-            <header className="inbox-header">
-                <div className="icon"></div>
-            </header>
-            <Container className="message-container"  onClick={() =>inputRef.current.focus()}>
-                <Col className="message-container__iner">
-                    {messages.map((message, index) => <Row key={index}>
-                        <div className={`message-from-${message.author === _id? "me":"other"}`}>
-                            {message.content}
-                        </div>
-                    </Row>)}
-                </Col>
-            </Container>
-            <Container>
-                <input type="text"
-                    ref={inputRef}
-                    name="content"
-                    value={message}
-                    onChange={e => setMessage(e.target.value)}
-                    onKeyPress={e => e.key === 'Enter'? sendMessage(e) :null}
-                />
-            </Container>
-        </div>
-    )
-}
-
-export default TextChannel
+export default TextChannel;

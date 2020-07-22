@@ -5,20 +5,23 @@ $darkGrey:#939393;
 $dark:#626262;
 $padding: 5%;
 
-*{
+* {
     margin: 0;
     padding: 0;
     list-style: none;
     font-family: 'Roboto', sans-serif;
     text-decoration: none;
 }
-body{
-    background-color: $grey!important;
+
+body {
+    background-color: $grey !important;
 }
-button{
+
+button {
     border: none;
     background: none;
 }
-.strong{
+
+.strong {
     font-weight: 600;
 }

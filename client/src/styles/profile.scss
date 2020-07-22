@@ -1,39 +1,46 @@
-.profile{
-    
-    .user{
+.profile {
+
+    .user {
         $length: 150px;
-        &-info{
+
+        &-info {
             max-width: 60%;
         }
+
         .profile-image {
             display: flex;
             justify-content: center;
             align-items: center;
         }
-        &-image{
+
+        &-image {
             border-radius: 50%;
             display: flex;
             overflow: hidden;
-            width:  150px;
+            width: 150px;
             height: 150px;
             justify-content: center;
             align-content: center;
-            *{
-                width:  120%;
+
+            * {
+                width: 120%;
                 height: 120%;
             }
         }
     }
-    &-content{
+
+    &-content {
         padding: 25px 25%;
     }
-    &-posts-container{
+
+    &-posts-container {
         display: grid;
         grid-template-columns: 1fr 1fr 1fr;
         grid-gap: .4rem;
         padding: 0;
         margin: 0;
-        .post-profile{
+
+        .post-profile {
             background: none;
             border: none;
             position: relative;
@@ -41,11 +48,13 @@
             justify-content: center;
             align-items: center;
             background-color: #000;
-            img{
+
+            img {
                 height: 100%;
                 width: 100%;
             }
-            .data{
+
+            .data {
                 position: absolute;
                 top: 0;
                 display: flex;
@@ -56,39 +65,44 @@
                 align-items: center;
                 width: 100%;
                 opacity: 0;
-                .stat{
-                    svg{
+
+                .stat {
+                    svg {
                         margin-right: 5px;
                     }
                 }
             }
-            &:hover{
-                .data{
+
+            &:hover {
+                .data {
                     opacity: 1;
                 }
-                .image{
+
+                .image {
                     opacity: .5;
                 }
             }
         }
     }
 }
-.profile-posts-container{
+
+.profile-posts-container {
     margin-top: 20px;
 }
-.minor-container{
+
+.minor-container {
     margin-top: 20px;
-    padding: 0 0%;   
+    padding: 0 0%;
 }
+
 @media (max-width: 1024px) {
-    .minor-container{
+    .minor-container {
         padding: 0%;
     }
 }
 
 @media (max-width: 400px) {
-    .minor-container{
+    .minor-container {
         padding: 0;
     }
 }
-

@@ -1,37 +1,60 @@
-import { useEffect, useState } from 'react'
-import axios from 'axios'
+import { useEffect, useState } from 'react';
+import axios from 'axios';
 
-export default function useGet(url, state=[],useToken=false, reRender =[],config={headers:{}}) {
-    
-    const [data, setData] = useState(state)
-    const [loading, setLoading] = useState(true)
-    const [error, setError] = useState('')
-    const baseURL = localStorage.getItem('URL')
-    const token = localStorage.getItem('token')
-    
-    if(useToken){ 
-        config.headers['x-access-token'] = token
-    }
+const baseURL = localStorage.getItem('URL');
+const token = localStorage.getItem('token');
+export default function useGet(
+	url,
+	state = [],
+	useToken = false,
+	reRender = [],
+	config = { headers: {} },
+	reverse = false,
+	extraFunction
+) {
+	const [data, setData] = useState(state);
+	const [loading, setLoading] = useState(true);
+	const [error, setError] = useState('');
+	const [hasMore, setHasMore] = useState(false);
 
-    const fetchData = async () =>{
-        const fetchUrl = baseURL + url
-        try {
-            const response = await axios.get(fetchUrl,config)
-            setData(response.data)
-            setLoading(false)
-        } catch (err) {
-            setError(err)
-        }
-    }
+	if (useToken) {
+		config.headers['x-access-token'] = token;
+	}
 
-    useEffect(()=>{
-        setLoading(true)
-        fetchData()
-    },reRender)
-    
-    const cleanUp = () =>{
-        setData(state)
-    }
+	const fetchData = async () => {
+		const fetchUrl = baseURL + url;
+		try {
+			const response = await axios.get(fetchUrl, config);
+			if (reverse) {
+				setData((data) => response.data.concat(data));
+			} else {
+				setData(response.data);
+			}
+			setLoading((loading) => (loading = false));
+			if (
+				Object.prototype.toString.call(response.data) ===
+				'[object Array]'
+			) {
+				if (response.data.length > 0) {
+					extraFunction();
+					setHasMore(true);
+				} else if (response.data.length === 0) {
+					setHasMore(false);
+				}
+			}
+		} catch (err) {
+			setError(err);
+		}
+	};
 
-    return [data, loading, error, cleanUp]
+	useEffect(() => {
+		setLoading(true);
+		fetchData();
+	}, reRender);
+
+	const cleanUp = () => {
+		setData(state);
+	};
+
+	return [data, loading, error, cleanUp, setData, hasMore];
 }
