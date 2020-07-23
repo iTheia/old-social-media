@@ -5,7 +5,14 @@ import useGet from './useGet';
 
 let socket;
 const URL = localStorage.getItem('URL');
-const ENDPOINT = 'http://localhost:5000/';
+
+let ENDPOINT = '';
+if (process.env.NODE_ENV === 'development') {
+	ENDPOINT = 'http://localhost:5000/';
+} else {
+	ENDPOINT = 'https://young-lowlands-83239.herokuapp.com/';
+}
+
 function scrollBot() {
 	let elem = document.querySelector('.message-container__iner');
 	elem.scrollTop = elem.scrollHeight;
